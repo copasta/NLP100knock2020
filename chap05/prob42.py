@@ -47,11 +47,9 @@ def main():
     for batch_chunk in list_cunk_neko[:10]:
         for line_chunk in batch_chunk:
             if line_chunk.dst != -1:
-                print(
-                    ''.join([line_morphs.surface for line_morphs in line_chunk.morphs]), 
-                    ''.join([line_morphs.surface for line_morphs in batch_chunk[int(line_chunk.dst)].morphs if line_morphs.pos != "記号"]), 
-                    sep='\t'
-                    )
+                text_src = ''.join([line_morphs.surface for line_morphs in line_chunk.morphs])
+                text_dst = ''.join([line_morphs.surface for line_morphs in batch_chunk[int(line_chunk.dst)].morphs if line_morphs.pos != "記号"])
+                print("{}\t{}".format(text_src, text_dst))
 
 if __name__ == "__main__":
     main()
