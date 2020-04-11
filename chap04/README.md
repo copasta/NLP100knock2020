@@ -1,5 +1,5 @@
 # MeCabインストール(Mac)
-簡単なMeCabと辞書のインストール手順(2019年版)
+簡単なMeCabと辞書のインストール手順(2019-04-03)
 
 ```
 $ brew install mecab
