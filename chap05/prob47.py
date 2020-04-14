@@ -43,31 +43,32 @@ def get_chunk(list_cabocha):
 def main():
     with open("./data/neko.txt.cabocha", mode="rt", encoding="utf-8") as f:
         list_neko = f.read().split("EOS\n")
-    list_cunk_neko = get_chunk(list_neko)
-    for batch_chunk in list_cunk_neko:
-        for batch_idx, line_chunk in enumerate(batch_chunk):
-            word_dst = [line_morphs.surface for line_morphs in line_chunk.morphs]
-            pos1_dst = [line_morphs.pos1 for line_morphs in line_chunk.morphs]
-            if "を" in word_dst and "サ変接続" in pos1_dst:
-                for idx in range(len(word_dst) - 1):
-                    if pos1_dst[idx] == "サ変接続" and word_dst[idx+1] == "を":
-                        verb_dst = [line_morphs.base for line_morphs in batch_chunk[int(line_chunk.dst)].morphs if line_morphs.pos == "動詞"]
-                        if verb_dst:
-                            temp_pp = []
-                            temp_phrase = []
-                            for srcs in batch_chunk[int(line_chunk.dst)].srcs:
-                                if srcs == batch_idx or srcs == line_chunk.dst:
-                                    continue
-                                temp_pp.append("".join([line_morphs.surface for line_morphs in batch_chunk[int(srcs)].morphs if line_morphs.pos == "助詞"]))
-                                temp_phrase.append("".join([line_morphs.surface for line_morphs in batch_chunk[int(srcs)].morphs if line_morphs.pos != "記号"]))
-                            if temp_pp != [""] and len(temp_pp) > 0:
-                                print(
-                                    "{}\t{}\t{}".format(
-                                        word_dst[idx] + word_dst[idx+1] + verb_dst[0],
-                                        " ".join(temp_pp),
-                                        " ".join(temp_phrase)
-                                    )
-                                )
+    with open("./data/prob47.txt", mode="w") as f:
+        list_cunk_neko = get_chunk(list_neko)
+        for batch_chunk in list_cunk_neko:
+            for batch_idx, line_chunk in enumerate(batch_chunk):
+                word_dst = [line_morphs.surface for line_morphs in line_chunk.morphs]
+                pos1_dst = [line_morphs.pos1 for line_morphs in line_chunk.morphs]
+                if "を" in word_dst and "サ変接続" in pos1_dst:
+                    for idx in range(len(word_dst) - 1):
+                        if pos1_dst[idx] == "サ変接続" and word_dst[idx+1] == "を":
+                            verb_dst = [line_morphs.base for line_morphs in batch_chunk[int(line_chunk.dst)].morphs if line_morphs.pos == "動詞"]
+                            if verb_dst:
+                                temp_pp = []
+                                temp_phrase = []
+                                for srcs in batch_chunk[int(line_chunk.dst)].srcs:
+                                    if srcs == batch_idx or srcs == line_chunk.dst:
+                                        continue
+                                    temp_pp.append("".join([line_morphs.surface for line_morphs in batch_chunk[int(srcs)].morphs if line_morphs.pos == "助詞"]))
+                                    temp_phrase.append("".join([line_morphs.surface for line_morphs in batch_chunk[int(srcs)].morphs if line_morphs.pos != "記号"]))
+                                if temp_pp != [""] and len(temp_pp) > 0:
+                                    txt = "{}\t{}\t{}".format(
+                                            word_dst[idx] + word_dst[idx+1] + verb_dst[0],
+                                            " ".join(temp_pp),
+                                            " ".join(temp_phrase)
+                                        )
+                                    print(txt)
+                                    f.write(txt + "\n")
 
 if __name__ == "__main__":
     main()

@@ -43,27 +43,28 @@ def get_chunk(list_cabocha):
 def main():
     with open("./data/neko.txt.cabocha", mode="rt", encoding="utf-8") as f:
         list_neko = f.read().split("EOS\n")
-    list_cunk_neko = get_chunk(list_neko)
-    for batch_chunk in list_cunk_neko[:10]:
-        for line_chunk in batch_chunk:
-            if line_chunk.srcs:
-                pos_dst = [line_morphs.pos for line_morphs in line_chunk.morphs]
-                if "動詞" in pos_dst:
-                    for line_morphs in line_chunk.morphs:
-                        if line_morphs.pos == "動詞":
-                            verb_dst = line_morphs.base
-                            break
-                    temp = []
-                    for idx_srcs in line_chunk.srcs:
-                        text_dst = [line_morphs.surface for line_morphs in batch_chunk[int(idx_srcs)].morphs if line_morphs.pos == "助詞"]
-                        if pos_dst:
-                            temp.append(" ".join(text_dst))
-                    print(
-                        "{}\t{}".format(
-                            verb_dst,
-                            " ".join(temp)
-                        )
-                    )
+    with open("./data/prob45.txt", mode="w") as f:
+        list_cunk_neko = get_chunk(list_neko)
+        for batch_chunk in list_cunk_neko:
+            for line_chunk in batch_chunk:
+                if line_chunk.srcs:
+                    pos_dst = [line_morphs.pos for line_morphs in line_chunk.morphs]
+                    if "動詞" in pos_dst:
+                        for line_morphs in line_chunk.morphs:
+                            if line_morphs.pos == "動詞":
+                                verb_dst = line_morphs.base
+                                break
+                        temp = []
+                        for idx_srcs in line_chunk.srcs:
+                            text_dst = [line_morphs.surface for line_morphs in batch_chunk[int(idx_srcs)].morphs if line_morphs.pos == "助詞"]
+                            if pos_dst:
+                                temp.append(" ".join(text_dst))
+                        txt = "{}\t{}".format(
+                                verb_dst,
+                                " ".join(temp)
+                            )
+                        print(txt)
+                        f.write(txt + "\n")
 
 if __name__ == "__main__":
     main()
