@@ -50,6 +50,7 @@ def main():
         for idx in range(len(noun_chunk) - 1):
             first_list_txt = ["".join([noun_morphs.surface if noun_morphs.pos != "名詞" else "X" for noun_morphs in noun_chunk[idx].morphs])]
             for next_noun_chunk in noun_chunk[idx+1:]:
+                
                 temp_next_line_text = []
                 for noun_morphs in next_noun_chunk.morphs:
                     if noun_morphs.pos != "記号":
@@ -57,6 +58,7 @@ def main():
                             temp_next_line_text.append("Y")
                         else:
                             temp_next_line_text.append(noun_morphs.surface)
+
                 next_list_txt = ["".join(temp_next_line_text)]
                 next_dst = noun_chunk[idx].dst
                 next_chunk_idx = batch_chunk.index(next_noun_chunk)
