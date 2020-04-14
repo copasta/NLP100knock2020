@@ -1,0 +1,1 @@
+sort ./data/prob45.txt | uniq -c | sort -n -r 

@@ -1,0 +1,1 @@
+cut -f 1,2 ./data/prob47.txt | sort | uniq -c | sort -r
