@@ -12,9 +12,9 @@ X_train, X_test = train_test_split(X, test_size=0.2, random_state=1234, stratify
 X_valid, X_test = train_test_split(X_test, test_size=0.5, random_state=1234, stratify=X_test["CATEGORY"])
 print("train : {}, valid : {}, test : {}".format(X_train.shape, X_valid.shape, X_test.shape))
 
-X_train.to_csv('./data/train.txt', sep='\t', index=False, header=None)
-X_valid.to_csv('./data/valid.txt', sep='\t', index=False, header=None)
-X_test.to_csv('./data/test.txt', sep='\t', index=False, header=None)
+X_train.to_csv('./data/train.txt', sep='\t', index=False)
+X_valid.to_csv('./data/valid.txt', sep='\t', index=False)
+X_test.to_csv('./data/test.txt', sep='\t', index=False)
 
 print("--TRAIN--")
 print(X_train["CATEGORY"].value_counts())
