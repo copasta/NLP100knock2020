@@ -1,4 +1,3 @@
-import pandas as pd
 from gensim.models import KeyedVectors
 from tqdm import tqdm
 
