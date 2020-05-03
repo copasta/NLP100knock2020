@@ -13,7 +13,7 @@ class NeuralNet(nn.Module):
         self.linear = nn.Linear(vector_size, output_size, bias=False)
         self.out = nn.Softmax(dim=1)
     
-    def forward(self, x, label=None):
+    def forward(self, x):
 
         h = self.linear(x)
         out = self.out(h)

@@ -4,7 +4,6 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.optim import SGD
-from torch.utils.data import DataLoader, TensorDataset
 from tqdm import tqdm
 
 prob_num = 76
@@ -15,7 +14,7 @@ class NeuralNet(nn.Module):
         self.linear = nn.Linear(vector_size, output_size, bias=False)
         self.out = nn.Softmax(dim=1)
     
-    def forward(self, x, label=None):
+    def forward(self, x):
 
         h = self.linear(x)
         out = self.out(h)
