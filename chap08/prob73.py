@@ -37,6 +37,7 @@ optimizer = SGD(model.parameters(), lr=0.01)
 loss_hist = []
 
 for epoch in tqdm(range(100)):
+    optimizer.zero_grad()
     y_pred = model(X)
     loss = loss_fn(y_pred, y)
 

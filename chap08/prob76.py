@@ -50,6 +50,7 @@ valid_acc = []
 checkpoint = 10
 
 for epoch in tqdm(range(100)):
+    optimizer.zero_grad()
     model = model.train()
     y_pred = model(X)
     loss = loss_fn(y_pred, y)
